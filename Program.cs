@@ -21,6 +21,8 @@ namespace Grafy_i_Sieci
             OdejmijOdKolumnyJejMinimum(macierz);
             if(Sprawdz1(macierz))
                 return macierz;
+            Krok4(macierz);
+            return macierz;
             
         }
         private static bool CzyKwadratowa(uint[,] macierz)
