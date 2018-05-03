@@ -13,6 +13,26 @@ namespace Grafy_i_Sieci
             return macierz.GetLength(0) == macierz.GetLength(1);
         }
         
+        private static uint[] MinimumWKazdymWierszu(uint[,] macierz)
+        {
+            uint[] min_wiersz = new uint[macierz.GetLength(0)];
+            uint min;
+
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                min = macierz[i, 0];
+
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    min = Math.Min(min, macierz[i, j]);
+                }
+
+                min_wiersz[i] = min;
+            }
+
+            return min_wiersz;
+        }
+        
         static void Main(string[] args)
         {
             uint[,] macierz = new uint[,] { { 3, 3, 3 }, { 2, 2, 2 }, { 1, 1, 1 } };
