@@ -107,6 +107,66 @@ namespace Grafy_i_Sieci
             }
             return test;
         }
+        
+        //tworzy macierz 0-1-2, liczba oznacza ilość przekreśleń na danym elemencie
+        //nie czepiać się oznaczeń, pisane na szybko
+        static uint[,] MacierzPrzekreslen(uint[,] macierz)
+        {
+            //pusta macierz NxN wypełniona zerami
+            uint[,] nowa = new uint[macierz.GetLength(0), macierz.GetLength(0)];
+            for (int i = 0; i < nowa.GetLength(0); i++)
+            {
+                for (int j = 0; j < nowa.GetLength(0); j++)
+                {
+                    nowa[i, j] = 0;
+                }
+            }
+
+            //zmienna odpowiada za to, czy przekreslić dany wiersz, czy nie
+            int caly = 0;
+
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                for (int j = 0; j < macierz.GetLength(0); j++)
+                {
+                    if (macierz[i, j] == 0)
+                        caly++;
+                }
+                //jeżeli więcej niż jedno zero z wierszu ---> przekreślamy
+                if (caly > 1)
+                {
+                    for (int j = 0; j < macierz.GetLength(0); j++)
+                    {
+                        nowa[i, j]++;
+                    }
+                }
+                caly = 0;
+            }
+
+            //analogicznie z kolumnami
+            int cala = 0;
+
+            for (int j = 0; j < macierz.GetLength(0); j++)
+            {
+                for (int i = 0; i < macierz.GetLength(0); i++)
+                {
+                    if (macierz[i, j] == 0)
+                        cala++;
+                }
+
+                if (cala > 1)
+                {
+                    for (int i = 0; i < macierz.GetLength(0); i++)
+                    {
+                        nowa[i, j]++;
+                    }
+                }
+                cala = 0;
+            }
+
+            return nowa;
+        }
+        
         static void Main(string[] args)
         {
             uint[,] macierz = new uint[,] { { 3, 3, 3 }, { 2, 2, 2 }, { 1, 1, 1 } };
