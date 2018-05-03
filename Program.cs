@@ -15,6 +15,10 @@ namespace Grafy_i_Sieci
                 Console.WriteLine("Macierz nie jest kwadratowa!");
                 return macierz;
             }
+            OdejmijOdWierszaJegoMinimum(macierz);
+            if(Sprawdz1(macierz))
+                return macierz;
+            
         }
         private static bool CzyKwadratowa(uint[,] macierz)
         {
@@ -84,7 +88,22 @@ namespace Grafy_i_Sieci
                 }
             }
         }
-        
+        static bool Sprawdz1(uint[,] macierz)
+        {
+            bool test;
+            for(int j = 0; j < macierz.GetLength(0); j++)
+            {
+                test = false;
+                for(int i = 0; i < macierz.GetLength(1); i++)
+                {
+                    if(macierz[i, j] == 0)
+                        test = true;
+                }
+                if(test==false)
+                    return test;
+            }
+            return test;
+        }
         static void Main(string[] args)
         {
             uint[,] macierz = new uint[,] { { 3, 3, 3 }, { 2, 2, 2 }, { 1, 1, 1 } };
