@@ -10,7 +10,7 @@ namespace Grafy_i_Sieci
     {
         static void Main(string[] args)
         {
-            uint test;
+            uint[,] matrix = new uint[3,3];
         }
     }
 }
