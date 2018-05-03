@@ -68,7 +68,7 @@ namespace Grafy_i_Sieci
             return min_kolumna;
         }
         
-        static void OdejmijOdWierszaJegoMinimum(uint[,] macierz)
+        private static void OdejmijOdWierszaJegoMinimum(uint[,] macierz)
         {
             uint[] min_wiersz = MinimumWKazdymWierszu(macierz);
             for (int i = 0; i < macierz.GetLength(0); i++)
@@ -80,7 +80,7 @@ namespace Grafy_i_Sieci
             }
         }
 
-        static void OdejmijOdKolumnyJejMinimum(uint[,] macierz)
+        private static void OdejmijOdKolumnyJejMinimum(uint[,] macierz)
         {
             uint[] min_kolumna = MinimumWKazdejKolumnie(macierz);
             for (int j = 0; j < macierz.GetLength(0); j++)
@@ -91,7 +91,7 @@ namespace Grafy_i_Sieci
                 }
             }
         }
-        static bool Sprawdz1(uint[,] macierz)
+        private static bool Sprawdz1(uint[,] macierz)
         {
             bool test;
             for(int j = 0; j < macierz.GetLength(0); j++)
@@ -110,7 +110,7 @@ namespace Grafy_i_Sieci
         
         //tworzy macierz 0-1-2, liczba oznacza ilość przekreśleń na danym elemencie
         //nie czepiać się oznaczeń, pisane na szybko
-        static uint[,] MacierzPrzekreslen(uint[,] macierz)
+        private static uint[,] MacierzPrzekreslen(uint[,] macierz, ref int licznik)
         {
             //pusta macierz NxN wypełniona zerami
             uint[,] nowa = new uint[macierz.GetLength(0), macierz.GetLength(0)];
@@ -135,6 +135,7 @@ namespace Grafy_i_Sieci
                 //jeżeli więcej niż jedno zero z wierszu ---> przekreślamy
                 if (caly > 1)
                 {
+                    licznik++;
                     for (int j = 0; j < macierz.GetLength(0); j++)
                     {
                         nowa[i, j]++;
@@ -156,6 +157,7 @@ namespace Grafy_i_Sieci
 
                 if (cala > 1)
                 {
+                    licznik++;
                     for (int i = 0; i < macierz.GetLength(0); i++)
                     {
                         nowa[i, j]++;
@@ -166,7 +168,34 @@ namespace Grafy_i_Sieci
 
             return nowa;
         }
-        
+        private static uint[,] Krok4(uint[,] macierz)
+        {
+            uint licznik = 0;
+            uint[,] linie = MacierzPrzekreslen(macierz, ref licznik);
+            if(licznik == macierz.GetLength(0))
+                return macierz;
+            else
+                Krok4(macierz);
+            uint min = 0;
+            for(int i = 0; i < linie.GetLength(0); i++)
+            {
+                for(int j = 0; j < linie.GetLength(1); j++)
+                {
+                    if(linie[i,j] == 0)
+                        min = Math.Min(min, linie[i,j]);
+                }
+            }
+            for(int i = 0; i < linie.GetLength(0); i++)
+            {
+                for(int j = 0; j < linie.GetLength(1); j++)
+                {
+                    if(linie[i,j] == 0)
+                        macierz[i,j] -= min;
+                    else if(linie[i,j] == 2)
+                        macierz[i,j] += min;
+                }
+            }         
+        }
         static void Main(string[] args)
         {
             uint[,] macierz = new uint[,] { { 3, 3, 3 }, { 2, 2, 2 }, { 1, 1, 1 } };
