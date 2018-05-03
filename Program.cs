@@ -61,6 +61,30 @@ namespace Grafy_i_Sieci
             return min_kolumna;
         }
         
+        static void OdejmijOdWierszaJegoMinimum(uint[,] macierz)
+        {
+            uint[] min_wiersz = MinimumWKazdymWierszu(macierz);
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    macierz[i, j] -= min_wiersz[i];
+                }
+            }
+        }
+
+        static void OdejmijOdKolumnyJejMinimum(uint[,] macierz)
+        {
+            uint[] min_kolumna = MinimumWKazdejKolumnie(macierz);
+            for (int j = 0; j < macierz.GetLength(0); j++)
+            {
+                for (int i = 0; i < macierz.GetLength(1); i++)
+                {
+                    macierz[j, i] -= min_kolumna[i];
+                }
+            }
+        }
+        
         static void Main(string[] args)
         {
             uint[,] macierz = new uint[,] { { 3, 3, 3 }, { 2, 2, 2 }, { 1, 1, 1 } };
