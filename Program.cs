@@ -41,6 +41,26 @@ namespace Grafy_i_Sieci
             return min_wiersz;
         }
         
+        private static uint[] MinimumWKazdejKolumnie(uint[,] macierz)
+        {
+            uint[] min_kolumna = new uint[macierz.GetLength(0)];
+            uint min;
+
+            for (int j = 0; j < macierz.GetLength(0); j++)
+            {
+                min = macierz[0, j];
+
+                for (int i = 0; i < macierz.GetLength(1); i++)
+                {
+                    min = Math.Min(min, macierz[i, j]);
+                }
+
+                min_kolumna[j] = min;
+            }
+
+            return min_kolumna;
+        }
+        
         static void Main(string[] args)
         {
             uint[,] macierz = new uint[,] { { 3, 3, 3 }, { 2, 2, 2 }, { 1, 1, 1 } };
