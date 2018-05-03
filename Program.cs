@@ -8,6 +8,14 @@ namespace Grafy_i_Sieci
 {
     class Program
     {
+        static uint[,] Algorytm(uint[,] macierz)
+        {
+            if(!CzyKwadratowa(macierz))
+            {
+                Console.WriteLine("Macierz nie jest kwadratowa!");
+                return macierz;
+            }
+        }
         private static bool CzyKwadratowa(uint[,] macierz)
         {
             return macierz.GetLength(0) == macierz.GetLength(1);
