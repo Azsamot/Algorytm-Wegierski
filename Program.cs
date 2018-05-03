@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,26 +10,26 @@ namespace Grafy_i_Sieci
     {
         static uint[,] Algorytm(uint[,] macierz)
         {
-            if(!CzyKwadratowa(macierz))
+            if (!CzyKwadratowa(macierz))
             {
                 Console.WriteLine("Macierz nie jest kwadratowa!");
                 return macierz;
             }
             OdejmijOdWierszaJegoMinimum(macierz);
-            if(Sprawdz1(macierz))
+            if (Sprawdz1(macierz))
                 return macierz;
             OdejmijOdKolumnyJejMinimum(macierz);
-            if(Sprawdz1(macierz))
+            if (Sprawdz1(macierz))
                 return macierz;
             Krok4(macierz);
             return macierz;
-            
+
         }
         private static bool CzyKwadratowa(uint[,] macierz)
         {
             return macierz.GetLength(0) == macierz.GetLength(1);
         }
-        
+
         private static uint[] MinimumWKazdymWierszu(uint[,] macierz)
         {
             uint[] min_wiersz = new uint[macierz.GetLength(0)];
@@ -49,7 +49,7 @@ namespace Grafy_i_Sieci
 
             return min_wiersz;
         }
-        
+
         private static uint[] MinimumWKazdejKolumnie(uint[,] macierz)
         {
             uint[] min_kolumna = new uint[macierz.GetLength(0)];
@@ -69,7 +69,7 @@ namespace Grafy_i_Sieci
 
             return min_kolumna;
         }
-        
+
         private static void OdejmijOdWierszaJegoMinimum(uint[,] macierz)
         {
             uint[] min_wiersz = MinimumWKazdymWierszu(macierz);
@@ -95,24 +95,24 @@ namespace Grafy_i_Sieci
         }
         private static bool Sprawdz1(uint[,] macierz)
         {
-            bool test;
-            for(int j = 0; j < macierz.GetLength(0); j++)
+            bool test = false;
+            for (int j = 0; j < macierz.GetLength(0); j++)
             {
                 test = false;
-                for(int i = 0; i < macierz.GetLength(1); i++)
+                for (int i = 0; i < macierz.GetLength(1); i++)
                 {
-                    if(macierz[i, j] == 0)
+                    if (macierz[i, j] == 0)
                         test = true;
                 }
-                if(test==false)
+                if (test == false)
                     return test;
             }
             return test;
         }
-        
+
         //tworzy macierz 0-1-2, liczba oznacza ilość przekreśleń na danym elemencie
         //nie czepiać się oznaczeń, pisane na szybko
-        private static uint[,] MacierzPrzekreslen(uint[,] macierz, ref int licznik)
+        private static uint[,] MacierzPrzekreslen(uint[,] macierz, ref uint licznik)
         {
             //pusta macierz NxN wypełniona zerami
             uint[,] nowa = new uint[macierz.GetLength(0), macierz.GetLength(0)];
@@ -174,33 +174,42 @@ namespace Grafy_i_Sieci
         {
             uint licznik = 0;
             uint[,] linie = MacierzPrzekreslen(macierz, ref licznik);
-            if(licznik == macierz.GetLength(0))
+            if (licznik == macierz.GetLength(0))
                 return macierz;
-            else
-                Krok4(macierz);
             uint min = 0;
-            for(int i = 0; i < linie.GetLength(0); i++)
+            for (int i = 0; i < linie.GetLength(0); i++)
             {
-                for(int j = 0; j < linie.GetLength(1); j++)
+                for (int j = 0; j < linie.GetLength(1); j++)
                 {
-                    if(linie[i,j] == 0)
-                        min = Math.Min(min, linie[i,j]);
+                    if (linie[i, j] == 0)
+                        min = Math.Min(min, linie[i, j]);
                 }
             }
-            for(int i = 0; i < linie.GetLength(0); i++)
+            for (int i = 0; i < linie.GetLength(0); i++)
             {
-                for(int j = 0; j < linie.GetLength(1); j++)
+                for (int j = 0; j < linie.GetLength(1); j++)
                 {
-                    if(linie[i,j] == 0)
-                        macierz[i,j] -= min;
-                    else if(linie[i,j] == 2)
-                        macierz[i,j] += min;
+                    if (linie[i, j] == 0)
+                        macierz[i, j] -= min;
+                    else if (linie[i, j] == 2)
+                        macierz[i, j] += min;
                 }
-            }         
+            }
+            return Krok4(macierz);
         }
         static void Main(string[] args)
         {
-            uint[,] macierz = new uint[,] { { 3, 3, 3 }, { 2, 2, 2 }, { 1, 1, 1 } };
+            uint[,] macierz = new uint[,] { { 82, 83, 69, 92 }, { 77, 37, 49, 92 }, { 11, 69, 5, 86 }, { 8, 9, 98, 23 } };
+            macierz = Algorytm(macierz);
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    Console.Write(macierz[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.ReadKey();
         }
     }
 }
