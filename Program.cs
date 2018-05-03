@@ -10,6 +10,7 @@ namespace Grafy_i_Sieci
     {
         static void Main(string[] args)
         {
+            uint test;
         }
     }
 }
