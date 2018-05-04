@@ -21,8 +21,6 @@ namespace Grafy_i_Sieci
             OdejmijOdKolumnyJejMinimum(macierz);
             if (Sprawdz1(macierz))
                 return macierz;
-            uint licznik = 0;
-            WyswietlMacierz(MacierzPrzekreslen(macierz, ref licznik));
             //Krok4(macierz);
             return macierz;
 
@@ -195,7 +193,7 @@ namespace Grafy_i_Sieci
             uint[,] wiersz = new uint[nowa.GetLength(0), nowa.GetLength(0)];
             uint[,] kolumna = new uint[nowa.GetLength(0), nowa.GetLength(0)];
 
-            uint linie = 0;
+           
 
             for (int i = 0; i < nowa.GetLength(0); i++)
             {
@@ -205,7 +203,7 @@ namespace Grafy_i_Sieci
                     {
                         wiersz[i, j] = 1;
                     }
-                    linie++;
+                    licznik++;
                 }
                
             }
@@ -218,7 +216,7 @@ namespace Grafy_i_Sieci
                     {
                         kolumna[i, j] = 1;
                     }
-                    linie++;
+                    licznik++;
                 }
 
             }
