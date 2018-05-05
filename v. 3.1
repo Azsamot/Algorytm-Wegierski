@@ -1,0 +1,436 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Prawie
+{
+    class Program
+    {
+        class Wegier
+        {
+            public static void WyswietlMacierz(int[,] macierz)
+            {
+                Console.WriteLine("\n----------");
+                for (int i = 0; i < macierz.GetLength(0); i++)
+                {
+                    for (int j = 0; j < macierz.GetLength(1); j++)
+                    {
+                        Console.Write(macierz[i, j] + " ");
+                    }
+
+                    Console.WriteLine();
+                }
+                Console.WriteLine("----------");
+            }
+
+            public static void uWyswietlMacierz(uint[,] macierz)
+            {
+                Console.WriteLine("\n----------");
+                for (int i = 0; i < macierz.GetLength(0); i++)
+                {
+                    for (int j = 0; j < macierz.GetLength(1); j++)
+                    {
+                        Console.Write(macierz[i, j] + " ");
+                    }
+
+                    Console.WriteLine();
+                }
+                Console.WriteLine("----------");
+            }
+
+            public static uint[] MinimumWKazdymWierszu(uint[,] macierz)
+            {
+                uint[] min_wiersz = new uint[macierz.GetLength(0)];
+                uint min;
+
+                for (int i = 0; i < macierz.GetLength(0); i++)
+                {
+                    min = macierz[i, 0];
+
+                    for (int j = 0; j < macierz.GetLength(1); j++)
+                    {
+                        min = Math.Min(min, macierz[i, j]);
+                    }
+
+                    min_wiersz[i] = min;
+                }
+
+                return min_wiersz;
+            }
+
+            public static uint[] MinimumWKazdejKolumnie(uint[,] macierz)
+            {
+                uint[] min_kolumna = new uint[macierz.GetLength(0)];
+                uint min;
+
+                for (int j = 0; j < macierz.GetLength(0); j++)
+                {
+                    min = macierz[0, j];
+
+                    for (int i = 0; i < macierz.GetLength(1); i++)
+                    {
+                        min = Math.Min(min, macierz[i, j]);
+                    }
+
+                    min_kolumna[j] = min;
+                }
+
+                return min_kolumna;
+            }
+
+            public static void OdejmijOdWierszaJegoMinimum(uint[,] macierz)
+            {
+                uint[] min_wiersz = MinimumWKazdymWierszu(macierz);
+                for (int i = 0; i < macierz.GetLength(0); i++)
+                {
+                    for (int j = 0; j < macierz.GetLength(1); j++)
+                    {
+                        macierz[i, j] -= min_wiersz[i];
+                    }
+                }
+            }
+
+            public static void OdejmijOdKolumnyJejMinimum(uint[,] macierz)
+            {
+                uint[] min_kolumna = MinimumWKazdejKolumnie(macierz);
+                for (int j = 0; j < macierz.GetLength(0); j++)
+                {
+                    for (int i = 0; i < macierz.GetLength(1); i++)
+                    {
+                        macierz[j, i] -= min_kolumna[i];
+                    }
+                }
+            }
+
+            static uint[] ZeraWWierszach(uint[,] macierz)
+            {
+                uint[] zera = new uint[macierz.GetLength(1)];
+
+                for (int i = 0; i < macierz.GetLength(1); i++)
+                {
+                    for (int j = 0; j < macierz.GetLength(1); j++)
+                    {
+                        if (macierz[i, j] == 0)
+                            zera[i]++;
+                    }
+                }
+
+                return zera;
+            }
+
+            static uint[] ZeraWKolumnach(uint[,] macierz)
+            {
+                uint[] zera = new uint[macierz.GetLength(1)];
+
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    for (int i = 0; i < macierz.GetLength(1); i++)
+                    {
+                        if (macierz[i, j] == 0)
+                            zera[j]++;
+                    }
+                }
+
+                return zera;
+            }
+
+            public static int[,] NoweLinieK(uint[,] macierz_prawdziwa)
+            {
+                uint[,] macierz = new uint[macierz_prawdziwa.GetLength(0), macierz_prawdziwa.GetLength(0)];
+                for (int i = 0; i < macierz_prawdziwa.GetLength(0); i++)
+                {
+                    for (int j = 0; j < macierz_prawdziwa.GetLength(0); j++)
+                    {
+                        macierz[i, j] = macierz_prawdziwa[i, j];
+                    }
+                }
+                int liczba = 0;
+                int[,] linie = new int[macierz.GetLength(0) + 1, macierz.GetLength(0)];
+                uint maxzera = 0;
+                int kierunek = 0;
+                int indeks = 0;
+                int licznik = macierz.GetLength(0);
+
+                uint[] wiersz = ZeraWWierszach(macierz);
+                uint[] kolumna = ZeraWKolumnach(macierz);
+
+                do
+                {
+                    maxzera = 0;
+                    wiersz = ZeraWWierszach(macierz);
+                    kolumna = ZeraWKolumnach(macierz);
+
+                    for (int i = 0; i < kolumna.Length; i++)
+                    {
+                        if (kolumna[i] > maxzera)
+                        {
+                            maxzera = kolumna[i];
+                            kierunek = -1;
+                            indeks = i;
+                            licznik--;
+                        }
+                    }
+
+                    for (int i = 0; i < wiersz.Length; i++)
+                    {
+                        if (wiersz[i] > maxzera)
+                        {
+                            maxzera = wiersz[i];
+                            kierunek = 1;
+                            indeks = i;
+                            licznik--;
+                        }
+                    }
+
+                    if (kierunek == -1 && maxzera > 0)
+                    {
+                        for (int i = 0; i < wiersz.Length; i++)
+                        {
+                            linie[i, indeks]++;
+
+                            macierz[i, indeks] = 666;
+                        }
+                        liczba++;
+                    }
+
+                    if (kierunek == 1 && maxzera > 0)
+                    {
+                        for (int i = 0; i < wiersz.Length; i++)
+                        {
+                            linie[indeks, i]++;
+
+                            macierz[indeks, i] = 666;
+                        }
+                        liczba++;
+                    }
+
+                    //wiersz = ZeraWWierszach(macierz);
+                    //kolumna = ZeraWKolumnach(macierz);
+
+
+                } while (maxzera > 0);
+                linie[linie.GetLength(0) - 1, 0] = liczba;
+                //Console.WriteLine("linieK");
+                //WyswietlMacierz(linie);
+                return linie;
+
+            }
+
+            public static int[,] NoweLinieW(uint[,] macierz_prawdziwa)
+            {
+                uint[,] macierz = new uint[macierz_prawdziwa.GetLength(0), macierz_prawdziwa.GetLength(0)];
+                for (int i = 0; i < macierz_prawdziwa.GetLength(0); i++)
+                {
+                    for (int j = 0; j < macierz_prawdziwa.GetLength(0); j++)
+                    {
+                        macierz[i, j] = macierz_prawdziwa[i, j];
+                    }
+                }
+                int liczba = 0;
+                int[,] linie = new int[macierz.GetLength(0) + 1, macierz.GetLength(0)];
+                uint maxzera = 0;
+                int kierunek = 0;
+                int indeks = 0;
+                int licznik = macierz.GetLength(0);
+
+                uint[] wiersz = ZeraWWierszach(macierz);
+                uint[] kolumna = ZeraWKolumnach(macierz);
+
+                do
+                {
+                    maxzera = 0;
+                    wiersz = ZeraWWierszach(macierz);
+                    kolumna = ZeraWKolumnach(macierz);
+
+
+
+                    for (int i = 0; i < wiersz.Length; i++)
+                    {
+                        if (wiersz[i] > maxzera)
+                        {
+                            maxzera = wiersz[i];
+                            kierunek = 1;
+                            indeks = i;
+                            licznik--;
+                        }
+                    }
+
+                    for (int i = 0; i < kolumna.Length; i++)
+                    {
+                        if (kolumna[i] > maxzera)
+                        {
+                            maxzera = kolumna[i];
+                            kierunek = -1;
+                            indeks = i;
+                            licznik--;
+                        }
+                    }
+
+
+
+                    if (kierunek == 1 && maxzera > 0)
+                    {
+                        for (int i = 0; i < wiersz.Length; i++)
+                        {
+                            linie[indeks, i]++;
+
+                            macierz[indeks, i] = 666;
+                        }
+                        liczba++;
+                    }
+
+                    if (kierunek == -1 && maxzera > 0)
+                    {
+                        for (int i = 0; i < wiersz.Length; i++)
+                        {
+                            linie[i, indeks]++;
+
+                            macierz[i, indeks] = 666;
+                        }
+                        liczba++;
+                    }
+
+                    //wiersz = ZeraWWierszach(macierz);
+                    //kolumna = ZeraWKolumnach(macierz);
+
+
+                } while (maxzera > 0);
+                linie[linie.GetLength(0) - 1, 0] = liczba;
+                //Console.WriteLine("linieW");
+                //WyswietlMacierz(linie);
+                return linie;
+
+            }
+
+            public static int[,] NoweLinie(uint[,] macierz, ref int liczba)
+            {
+
+                int[,] LinieW = NoweLinieW(macierz);
+                int[,] LinieK = NoweLinieK(macierz);
+                int wiersz = LinieW[LinieW.GetLength(0) - 1, 0];
+                //Console.WriteLine("wiersz-----" + wiersz);
+                int kolumna = LinieK[LinieK.GetLength(0) - 1, 0];
+                //Console.WriteLine("kolumny-----" + kolumna);
+                int[,] linie = new int[LinieW.GetLength(1), LinieW.GetLength(1)];
+
+                if (wiersz <= kolumna)
+                {
+                    for (int i = 0; i < LinieW.GetLength(1); i++)
+                    {
+                        for (int j = 0; j < LinieW.GetLength(1); j++)
+                        {
+                            linie[i, j] = LinieW[i, j];
+                        }
+                    }
+                    liczba = wiersz;
+                }
+                else
+                {
+                    for (int i = 0; i < LinieW.GetLength(1); i++)
+                    {
+                        for (int j = 0; j < LinieW.GetLength(1); j++)
+                        {
+                            linie[i, j] = LinieK[i, j];
+                        }
+                    }
+                    liczba = kolumna;
+                }
+                return linie;
+            }
+
+            public static void Krok4(uint[,] macierz, int[,] linie)
+            {
+                uint min = 200;
+                for (int i = 0; i < linie.GetLength(0); i++)
+                {
+                    for (int j = 0; j < linie.GetLength(1); j++)
+                    {
+                        if (linie[i, j] == 0)
+                            min = Math.Min(min, macierz[i, j]);
+                    }
+                }
+                for (int i = 0; i < linie.GetLength(0); i++)
+                {
+                    for (int j = 0; j < linie.GetLength(1); j++)
+                    {
+                        if (linie[i, j] == 0)
+                            macierz[i, j] -= min;
+                        else if (linie[i, j] == 2)
+                            macierz[i, j] += min;
+                    }
+                }
+
+            }
+
+            public static bool Sprawdz1(uint[,] macierz)
+            {
+                bool test = false;
+                uint[,] testowa = new uint[macierz.GetLength(0), macierz.GetLength(1)];
+                for (int j = 0; j < macierz.GetLength(0); j++)
+                {
+                    test = false;
+                    for (int i = 0; i < macierz.GetLength(1); i++)
+                    {
+                        if (testowa[i, j] != 1)
+                        {
+                            if (macierz[i, j] == 0)
+                            {
+                                test = true;
+                                for (int k = j; k < macierz.GetLength(1); k++)
+                                {
+                                    testowa[i, k] = 1;
+                                }
+                            }
+                        }
+                    }
+                    if (test == false)
+                        return test;
+                }
+                return test;
+            }
+
+            public static void Wykonaj(uint[,] macierz)
+            {
+                Console.Write("Macierz wejściowa");
+                Wegier.uWyswietlMacierz(macierz);
+
+                Wegier.OdejmijOdWierszaJegoMinimum(macierz);
+                Wegier.OdejmijOdKolumnyJejMinimum(macierz);
+                Console.Write("Macierz po 1 kroku");
+                Wegier.uWyswietlMacierz(macierz);
+
+
+                int liczba = 0;
+                int[,] nowe = new int[macierz.GetLength(0), macierz.GetLength(0)];
+                int i = 0;
+
+                while (liczba < macierz.GetLength(0))
+                {
+                    nowe = Wegier.NoweLinie(macierz, ref liczba);
+                    Wegier.Krok4(macierz, nowe);
+                    i++;
+                }
+
+                Console.Write("Macierz końcowa");
+                Wegier.uWyswietlMacierz(macierz);
+
+                Console.WriteLine("Liczba iteracji: " + i);
+            }
+
+        }
+        static void Main(string[] args)
+        {
+            //uint[,] mac1 = { { 35, 7, 0, 0 }, { 0, 0, 0, 5 }, { 55, 5, 0, 10 }, { 0, 45, 30, 45 } };
+            //uint[,] mac1 = new uint[,] { { 30, 36, 0, 0 }, { 21, 0, 52, 18 }, { 1, 51, 0, 9 }, { 15, 15, 15, 0 } };
+            //uint[,] mac1 = new uint[,] { { 30, 36, 0, 8 }, { 21, 7, 52, 18 }, { 1, 51, 0, 9 }, { 15, 15, 15, 7 } };
+            //uint[,] mac1 = new uint[,] { { 90, 75, 75, 80 }, { 35, 85, 55, 65 }, { 125, 95, 90, 105 }, { 45, 110, 95, 115 } };
+            //uint[,] mac1 = { { 4, 5, 6, 7, 8, 8 }, { 14, 3, 16, 2, 1, 5 }, { 41, 5,12, 7, 9, 10 }, { 5, 15, 7, 77, 7, 7 }, { 9, 6, 6, 3, 8, 4 }, { 4, 2, 6, 4, 18, 8 } };
+            uint[,] mac1 = { { 82, 83, 69, 92 }, { 77, 37, 49, 92 }, { 11, 69, 5, 86 }, { 8, 9, 98, 23 } };
+            Wegier.Wykonaj(mac1);
+
+            Console.ReadKey();
+        }
+    }
+}
