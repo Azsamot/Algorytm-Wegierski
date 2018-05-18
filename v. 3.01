@@ -1,0 +1,325 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Grafy_i_Sieci
+{
+    class Program
+    {
+        static uint[,] Algorytm(uint[,] macierz)
+        {
+            if (!CzyKwadratowa(macierz))
+            {
+                Console.WriteLine("Macierz nie jest kwadratowa!");
+                return macierz;
+            }
+            OdejmijOdWierszaJegoMinimum(macierz);
+            if (Sprawdz1(macierz))
+                return macierz;
+            OdejmijOdKolumnyJejMinimum(macierz);
+            if (Sprawdz1(macierz))
+                return macierz;
+            //Krok4(macierz);
+            return macierz;
+
+        }
+        private static bool CzyKwadratowa(uint[,] macierz)
+        {
+            return macierz.GetLength(0) == macierz.GetLength(1);
+        }
+
+        private static uint[] MinimumWKazdymWierszu(uint[,] macierz)
+        {
+            uint[] min_wiersz = new uint[macierz.GetLength(0)];
+            uint min;
+
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                min = macierz[i, 0];
+
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    min = Math.Min(min, macierz[i, j]);
+                }
+
+                min_wiersz[i] = min;
+            }
+
+            return min_wiersz;
+        }
+
+        private static uint[] MinimumWKazdejKolumnie(uint[,] macierz)
+        {
+            uint[] min_kolumna = new uint[macierz.GetLength(0)];
+            uint min;
+
+            for (int j = 0; j < macierz.GetLength(0); j++)
+            {
+                min = macierz[0, j];
+
+                for (int i = 0; i < macierz.GetLength(1); i++)
+                {
+                    min = Math.Min(min, macierz[i, j]);
+                }
+
+                min_kolumna[j] = min;
+            }
+
+            return min_kolumna;
+        }
+
+        private static void OdejmijOdWierszaJegoMinimum(uint[,] macierz)
+        {
+            uint[] min_wiersz = MinimumWKazdymWierszu(macierz);
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    macierz[i, j] -= min_wiersz[i];
+                }
+            }
+        }
+
+        private static void OdejmijOdKolumnyJejMinimum(uint[,] macierz)
+        {
+            uint[] min_kolumna = MinimumWKazdejKolumnie(macierz);
+            for (int j = 0; j < macierz.GetLength(0); j++)
+            {
+                for (int i = 0; i < macierz.GetLength(1); i++)
+                {
+                    macierz[j, i] -= min_kolumna[i];
+                }
+            }
+        }
+
+        private static bool Sprawdz1(uint[,] macierz)
+        {
+            bool test = false;
+            uint[,] testowa = new uint[macierz.GetLength(0), macierz.GetLength(1)];
+            for (int j = 0; j < macierz.GetLength(0); j++)
+            {
+                test = false;
+                for (int i = 0; i < macierz.GetLength(1); i++)
+                {
+                    if (testowa[i, j] != 1)
+                    {
+                        if (macierz[i, j] == 0)
+                        {
+                            test = true;
+                            for (int k = j; k < macierz.GetLength(1); k++)
+                            {
+                                testowa[i, k] = 1;
+                            }
+                        }
+                    }
+                }
+                if (test == false)
+                    return test;
+            }
+            return test;
+        }
+
+        private static uint[,] ZeraNiezalezne(uint[,] macierz)
+        {
+            uint[,] pomocnicza = new uint[macierz.GetLength(0), macierz.GetLength(1)];
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    if (macierz[i, j] == 0 && pomocnicza[i, j] == 0)
+                    {
+                        pomocnicza[i, j] = 1;
+                        for (int k = j + 1; k < macierz.GetLength(1); k++)
+                        {
+                            if (macierz[i, k] == 0)
+                                pomocnicza[i, k] = 2;
+                        }
+                        for (int l = i + 1; l < macierz.GetLength(0); l++)
+                        {
+                            if (macierz[l, j] == 0)
+                                pomocnicza[l, j] = 2;
+                        }
+                    }
+                }
+            }
+
+            return pomocnicza;
+        }
+
+        private static uint[,] MacierzPrzekreslen(uint[,] macierz, ref uint licznik)
+        {
+            uint[,] zera = ZeraNiezalezne(macierz);
+            WyswietlMacierz(zera);
+            uint[,] nowa = new uint[macierz.GetLength(0), macierz.GetLength(1)];
+            for (int i = 0; i < zera.GetLength(0); i++)
+            {
+                bool nieprzypisane = true;
+                for (int j = 0; j < zera.GetLength(1); j++)
+                {
+                    if (zera[i, j] == 1)
+                        nieprzypisane = false;
+                }
+                if (nieprzypisane == true)
+                {
+                    int idx = 0;
+                    for (int k = 0; k < zera.GetLength(1); k++)
+                    {
+
+                        nowa[i, k] = 1;
+                        if (zera[i, k] == 2)
+                            idx = k;
+                    }
+                    int idx2 = 0;
+                    for (int l = 0; l < zera.GetLength(0); l++)
+                    {
+                        if (zera[l, idx] == 1)
+                            idx2 = l;
+                        nowa[l, idx] = 1;
+
+                    }
+                    for (int m = 0; m < zera.GetLength(1); m++)
+                    {
+                        nowa[idx2, m] = 1;
+                    }
+                }
+
+            }
+
+            uint[] liczbawiersz = ZeraWWierszach(nowa);
+            uint[] liczbakolumna = ZeraWKolumnach(nowa);
+
+            uint[,] wiersz = new uint[nowa.GetLength(0), nowa.GetLength(0)];
+            uint[,] kolumna = new uint[nowa.GetLength(0), nowa.GetLength(0)];
+
+           
+
+            for (int i = 0; i < nowa.GetLength(0); i++)
+            {
+                if (liczbawiersz[i] != 0)
+                {
+                    for (int j = 0; j < nowa.GetLength(0); j++)
+                    {
+                        wiersz[i, j] = 1;
+                    }
+                    licznik++;
+                }
+               
+            }
+
+            for (int j = 0; j < nowa.GetLength(0); j++)
+            {
+                if (liczbakolumna[j] == 0)
+                {
+                    for (int i = 0; i < nowa.GetLength(0); i++)
+                    {
+                        kolumna[i, j] = 1;
+                    }
+                    licznik++;
+                }
+
+            }
+
+            for (int i = 0; i < nowa.GetLength(0); i++)
+            {
+                for (int j = 0; j < nowa.GetLength(0); j++)
+                {
+                    if (wiersz[i, j] == 1 || kolumna[i, j] == 1)
+                        nowa[i, j] = 1;
+
+                    if (wiersz[i, j] == 1 && kolumna[i, j] == 1)
+                        nowa[i, j]++;
+
+                    if (wiersz[i, j] == 0 && kolumna[i, j] == 0)
+                        nowa[i, j] = 0;
+                }
+            }
+
+            return nowa;
+        }
+        private static uint[,] Krok4(uint[,] macierz)
+        {
+            uint licznik = 0;
+            uint[,] linie = MacierzPrzekreslen(macierz, ref licznik);
+            if (licznik == macierz.GetLength(0))
+                return macierz;
+            uint min = 200;
+            for (int i = 0; i < linie.GetLength(0); i++)
+            {
+                for (int j = 0; j < linie.GetLength(1); j++)
+                {
+                    if (linie[i, j] == 0)
+                        min = Math.Min(min, linie[i, j]);
+                }
+            }
+            for (int i = 0; i < linie.GetLength(0); i++)
+            {
+                for (int j = 0; j < linie.GetLength(1); j++)
+                {
+                    if (linie[i, j] == 0)
+                        macierz[i, j] -= min;
+                    else if (linie[i, j] == 2)
+                        macierz[i, j] += min;
+                }
+            }
+            return Krok4(macierz);
+        }
+
+        static void WyswietlMacierz(uint[,] macierz)
+        {
+            Console.WriteLine("\n----------");
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                for (int j = 0; j < macierz.GetLength(1); j++)
+                {
+                    Console.Write(macierz[i, j] + " ");
+                }
+
+                Console.WriteLine();
+            }
+            Console.WriteLine("----------");
+        }
+
+        static uint[] ZeraWWierszach(uint[,] macierz)
+        {
+            uint[] zera = new uint[macierz.GetLength(0)];
+
+            for (int i = 0; i < macierz.GetLength(0); i++)
+            {
+                for (int j = 0; j < macierz.GetLength(0); j++)
+                {
+                    if (macierz[i, j] == 0)
+                        zera[i]++;
+                }
+            }
+
+            return zera;
+        }
+
+        static uint[] ZeraWKolumnach(uint[,] macierz)
+        {
+            uint[] zera = new uint[macierz.GetLength(0)];
+
+            for (int j = 0; j < macierz.GetLength(0); j++)
+            {
+                for (int i = 0; i < macierz.GetLength(0); i++)
+                {
+                    if (macierz[i, j] == 0)
+                        zera[j]++;
+                }
+            }
+
+            return zera;
+        }
+
+        static void Main(string[] args)
+        {
+            uint[,] macierz = new uint[,] { { 90, 75, 75, 80 }, { 35, 85, 55, 65 }, { 125, 95, 90, 105 }, { 45, 110, 95, 115 } };
+            //uint[,] macierz = new uint[,] { { 30, 36, 3, 7 }, { 21, 22, 52, 18 }, { 1, 51, 17, 9 }, { 15, 15, 15, 20 } };
+            WyswietlMacierz(Algorytm(macierz));
+            
+            Console.ReadKey();
+        }
+    }
+}
