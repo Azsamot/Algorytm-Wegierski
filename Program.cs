@@ -473,7 +473,7 @@ namespace Grafy_i_Sieci
                         if (macierz[i, j] == 1)
                             Console.ForegroundColor = ConsoleColor.Green;
                         else if (macierz[i, j] == 2)
-                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                            Console.ForegroundColor = ConsoleColor.Cyan;
                         else
                             Console.ForegroundColor = ConsoleColor.Gray;
 
