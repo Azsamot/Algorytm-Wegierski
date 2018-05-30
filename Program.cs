@@ -1,5 +1,4 @@
-@@ -1,16 +1,915 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Grafy_i_Sieci
-namespace Prawie
 {
     class Program
     {
