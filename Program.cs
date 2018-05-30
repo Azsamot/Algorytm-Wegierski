@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Grafy_i_Sieci
 {
@@ -19,14 +13,13 @@ namespace Grafy_i_Sieci
                 uint min = UInt32.MaxValue;
                 for (int i = 0; i < macierz.GetLength(0); i++)
                 {
-                    
                     for (int j = 0; j < macierz.GetLength(1); j++)
                     {
                         if (macierz[i,j] < min)
                             min = macierz[i,j];
                     }
                     for (int j = 0; j < macierz.GetLength(1); j++)
-                    macierz[i, j] -= min;
+                        macierz[i, j] -= min;
 
                     min = UInt32.MaxValue;
                 }
@@ -38,7 +31,6 @@ namespace Grafy_i_Sieci
                 uint min = UInt32.MaxValue;
                 for (int j = 0; j < macierz.GetLength(0); j++)
                 {
-
                     for (int i = 0; i < macierz.GetLength(1); i++)
                     {
                         if (macierz[i, j] < min)
@@ -78,17 +70,13 @@ namespace Grafy_i_Sieci
                 int[] kolumny_zaznaczone = new int[linie.GetLength(0)];
                 int licznik = int.MaxValue;
                 for (int i = 0; i < wiersze_zaznaczone.Length; i++)
-                {
                     wiersze_zaznaczone[i] = 1;
-                }
-
                 for (int i = 0; i < zera.GetLength(0); i++)
                 {
                     for (int j = 0; j < zera.GetLength(0); j++)
                     {
                         if (zera[i, j] == 1)
                             wiersze_zaznaczone[i] = 0;
-
                     }
                 }
                 while (licznik != 0)
@@ -103,13 +91,10 @@ namespace Grafy_i_Sieci
                                 kolumny_zaznaczone[j] = 1;
                                 licznik++;
                             }
-
                         }
                     }
-
                     for (int i = 0; i < zera.GetLength(0); i++)
                     {
-
                         for (int j = 0; j < zera.GetLength(0); j++)
                         {
                             if (kolumny_zaznaczone[j] == 1 && zera[i, j] == 1)
@@ -117,7 +102,6 @@ namespace Grafy_i_Sieci
                         }
                     }
                 }
-
                 for (int i = 0; i < zera.GetLength(0); i++)
                 {
                     for (int j = 0; j < zera.GetLength(0); j++)
@@ -126,35 +110,25 @@ namespace Grafy_i_Sieci
                             kolumny_zaznaczone[j] = 1;
                     }
                 }
-
                 for (int i = 0; i < linie.GetLength(0); i++)
                 {
                     for (int j = 0; j < linie.GetLength(0); j++)
                     {
                         if (wiersze_zaznaczone[i] == 0)
                             linie[i, j]++;
-
-
-
                         if (kolumny_zaznaczone[j] == 1)
                             linie[i, j]++;
-
                     }
-
-
                 }
-
                 for (int i = 0; i < wiersze_zaznaczone.Length; i++)
                 {
                     if (wiersze_zaznaczone[i] == 0)
                         liczba++;
-
                     if (kolumny_zaznaczone[i] == 1)
                         liczba++;
                 }
 
                 //WyswietlMacierz(linie);
-
                 return linie;
             }
 
@@ -180,16 +154,13 @@ namespace Grafy_i_Sieci
                             macierz[i, j] += min;
                     }
                 }
-
             }
 
             //metoda zwracająca i wyświetlająca wynik
             private static int Policz(uint[,] macierz, uint[,] wynikowa)
             {
                 int wynik = 0;
-
                 string tekst = "Ostateczny wynik to: ";
-
                 for (int i = 0; i < macierz.GetLength(0); i++)
                 {
                     for (int j = 0; j < macierz.GetLength(0); j++)
@@ -205,10 +176,8 @@ namespace Grafy_i_Sieci
                         }
                     }
                 }
-
                 tekst += wynik;
                 Console.WriteLine(tekst + ".");
-
                 return wynik;
             }
 
@@ -220,11 +189,8 @@ namespace Grafy_i_Sieci
                 for (int i = 0; i < macierz_prawdziwa.GetLength(0); i++)
                 {
                     for (int j = 0; j < macierz_prawdziwa.GetLength(0); j++)
-                    {
                         macierz[i, j] = macierz_prawdziwa[i, j];
-                    }
                 }
-
                 int liczba = 0;
                 int[,] nowe = new int[macierz.GetLength(0), macierz.GetLength(0)];
                 uint[,] zera = new uint[macierz.GetLength(0), macierz.GetLength(1)];
@@ -254,12 +220,10 @@ namespace Grafy_i_Sieci
                             }
                             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
                             counter++;
-
                         }
                     }
                 }
                 return Policz(macierz_prawdziwa, zera);
-
             }
 
             //wykonanie algorytmu, wyświetla wszystko krok po kroku
@@ -269,9 +233,7 @@ namespace Grafy_i_Sieci
                 for (int i = 0; i < macierz_wejsciowa.GetLength(0); i++)
                 {
                     for (int j = 0; j < macierz_wejsciowa.GetLength(0); j++)
-                    {
                         macierz[i, j] = macierz_wejsciowa[i, j];
-                    }
                 }
 
                 int liczba = 0;
@@ -294,7 +256,6 @@ namespace Grafy_i_Sieci
                 Console.ReadKey();
                 if (test < macierz.GetLength(0))
                 {
-
                     Wegier.Krok2(macierz);
                     Console.WriteLine("Krok {0}: ", k++);
                     uWyswietlMacierz(macierz);
@@ -309,7 +270,6 @@ namespace Grafy_i_Sieci
                     {
                         while (liczba < macierz.GetLength(0))
                         {
-
                             nowe = Wegier.RysujLinie(macierz, ref liczba, out zera);
                             if (liczba < macierz.GetLength(0))
                             {
@@ -326,21 +286,16 @@ namespace Grafy_i_Sieci
                                 Console.WriteLine("Naciśnij dowolny klawisz, aby przejść do kolejnego kroku.\n\n");
                                 Console.ReadKey();
                             }
-
                         }
                     }
                 }
                 Console.WriteLine("Krok {0}: ", k);
                 Console.WriteLine();
                 wWyswietlMacierz(macierz_wejsciowa, ZeraNiezalezne(macierz));
-
-                
+   
                 Console.WriteLine("\n");
                 return Policz(macierz_wejsciowa, zera);
-
             }
-
-
 
             //metody pomocnicze, bez których nie pójdą powyższe
             private static void WiecejZer(uint[,] macierz, ref uint[] zeraWiersze, ref uint[,] zera)
@@ -355,7 +310,6 @@ namespace Grafy_i_Sieci
                         int idx = 0;
                         for (int j = macierz.GetLength(1) - 1; j >= 0; j--)
                         {
-
                             if (macierz[i, j] == 0 && zera[i, j] == 0)
                             {
                                 int ilezer = 0;
@@ -369,13 +323,11 @@ namespace Grafy_i_Sieci
                                     Zera = ilezer;
                                     idx = j;
                                 }
-
                             }
                         }
                         zera[i, idx] = 1;
                         WykreslZera(macierz, ref zera, i, idx);
                     }
-
                     zeraWiersze = IleZer(macierz, zera);
                 }
             }
@@ -385,13 +337,9 @@ namespace Grafy_i_Sieci
                 for (int i = 0; i < macierz.GetLength(0); i++)
                 {
                     if (macierz[r, i] == 0 && zera[r, i] == 0)
-                    {
                         zera[r, i] = 2;
-                    }
                     if (macierz[i, c] == 0 && zera[i, c] == 0)
-                    {
                         zera[i, c] = 2;
-                    }
                 }
             }
 
@@ -423,9 +371,7 @@ namespace Grafy_i_Sieci
             {
                 uint liczbazer = 0;
                 for (int i = 0; i < zeraWiersze.Length; i++)
-                {
                     liczbazer += zeraWiersze[i];
-                }
                 return liczbazer;
             }
 
@@ -454,8 +400,6 @@ namespace Grafy_i_Sieci
                 return liczbazer;
             }
 
-
-
             //metody wyświetlające macierze
             //zera na czerwono
             private static void uWyswietlMacierz(uint[,] macierz)
@@ -466,7 +410,6 @@ namespace Grafy_i_Sieci
                     {
                         if (macierz[i, j] == 0)
                             Console.ForegroundColor = ConsoleColor.Red;
-
                         else
                             Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -484,10 +427,8 @@ namespace Grafy_i_Sieci
 
                         //if (macierz[i, j] >= 100)
                         //    Console.Write(macierz[i, j] + " ");
-
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
-
                     Console.WriteLine();
                 }
             }
@@ -501,7 +442,6 @@ namespace Grafy_i_Sieci
                     {
                         if (zera[i, j] == 1)
                             Console.ForegroundColor = ConsoleColor.Green;
-
                         else
                             Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -519,7 +459,6 @@ namespace Grafy_i_Sieci
 
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
-
                     Console.WriteLine();
                 }
             }
@@ -533,21 +472,16 @@ namespace Grafy_i_Sieci
                     {
                         if (macierz[i, j] == 1)
                             Console.ForegroundColor = ConsoleColor.Green;
-
                         else if (macierz[i, j] == 2)
                             Console.ForegroundColor = ConsoleColor.DarkBlue;
-
                         else
                             Console.ForegroundColor = ConsoleColor.Gray;
 
                         Console.Write(macierz[i, j] + " ");
-
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
-
                     Console.WriteLine();
                 }
-
             }
 
             //macierzy z liniami
@@ -559,24 +493,17 @@ namespace Grafy_i_Sieci
                     {
                         if (macierz[i, j] == 1)
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
-
                         else if (macierz[i, j] == 2)
                             Console.ForegroundColor = ConsoleColor.DarkMagenta;
-
                         else
                             Console.ForegroundColor = ConsoleColor.Gray;
 
                         Console.Write(macierz[i, j] + " ");
-
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
-
                     Console.WriteLine();
                 }
-
             }
-
-
 
             //metody do prezentacji działania
             private static void Dzialanie_Wpisz(int p, int rozmiar)
@@ -584,7 +511,6 @@ namespace Grafy_i_Sieci
                 uint[,] macierz = new uint[rozmiar, rozmiar];
                 uint wartosc;
                 int chk = 0;
-
                 for (int i = 0; i < rozmiar; i++)
                 {
                     for (int j = 0; j < rozmiar; j++)
@@ -602,7 +528,6 @@ namespace Grafy_i_Sieci
                                     macierz[i, j] = wartosc;
                                     chk = 1;
                                 }
-
                             }
                             catch (Exception)
                             {
@@ -610,43 +535,27 @@ namespace Grafy_i_Sieci
                             }
                         }
                         chk = 0;
-
                     }
                 }
-
                 if (p == 1)
-                {
                     Wykonaj(macierz);
-                }
-
                 if (p == 2)
-                {
                     WykonajWyswietl(macierz);
-                }
             }
 
             private static void Dzialanie_Losowo(int p, int rozmiar)
             {
                 uint[,] macierz = new uint[rozmiar, rozmiar];
                 Random r = new Random();
-
                 for (int i = 0; i < rozmiar; i++)
                 {
                     for (int j = 0; j < rozmiar; j++)
-                    {
                         macierz[i, j] = (uint)r.Next(1, 10000);
-                    }
                 }
-
                 if (p == 1)
-                {
                     Wykonaj(macierz);
-                }
-
                 if (p == 2)
-                {
                     WykonajWyswietl(macierz);
-                }
             }
 
             public static void Dzialanie()
@@ -656,7 +565,6 @@ namespace Grafy_i_Sieci
                 int wybor2 = 0;
                 int rozmiar = 0;
                 int chk = 0;
-
                 do
                 {
                     Console.WriteLine("Co chcesz zrobić?\n[1] Wpisz macierz.\n[2] Wygeneruj macierz losowo.\n[3] Wyjdź.");
@@ -674,11 +582,10 @@ namespace Grafy_i_Sieci
                         {
                             Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
                         }
-
                     }
                     chk = 0;
-                    if (wybor == 3) break;
-
+                    if (wybor == 3)
+                        break;
                     Console.WriteLine("[1] Wyświetl tylko wynik.\n[2] Wyświetl krok po kroku.\n[3] Wyjdź.");
                     while (chk != 1)
                     {
@@ -697,8 +604,8 @@ namespace Grafy_i_Sieci
 
                     }
                     chk = 0;
-                    if (wybor2 == 3) break;
-
+                    if (wybor2 == 3)
+                        break;
                     Console.WriteLine("Podaj rozmiar macierzy: ");
                     while (chk != 1)
                     {
@@ -716,7 +623,6 @@ namespace Grafy_i_Sieci
                         }
                     }
                     chk = 0;
-
                     switch (wybor)
                     {
                         case 1: Dzialanie_Wpisz(wybor2, rozmiar); break;
@@ -724,10 +630,8 @@ namespace Grafy_i_Sieci
                         case 3: break;
                         default: break;
                     }
-
                 } while (wybor != 3);
             }
-
 
 
             //metody do testowania
@@ -788,7 +692,6 @@ namespace Grafy_i_Sieci
             //    if (wynik != zneta)
             //        Console.WriteLine("kurła, nie działa");
             //}
-
         }
         static void Main(string[] args)
         {
