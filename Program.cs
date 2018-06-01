@@ -253,7 +253,7 @@ namespace Grafy_i_Sieci
                 int test = 0;
                 int[,] pierwsze = RysujLinie(macierz, ref test, out zera);
                 Console.WriteLine("\nNaciśnij dowolny klawisz, aby przejść do kolejnego kroku.\n\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 if (test < macierz.GetLength(0))
                 {
                     Wegier.Krok2(macierz);
@@ -263,7 +263,7 @@ namespace Grafy_i_Sieci
                     zWyswietlMacierz(Wegier.ZeraNiezalezne(macierz));
                     Console.WriteLine();
                     Console.WriteLine("Naciśnij dowolny klawisz, aby przejść do kolejnego kroku.\n\n");
-                    Console.ReadKey();
+                    Console.ReadKey(true);
                     test = 0;
                     pierwsze = RysujLinie(macierz, ref test, out zera);
                     if (test < macierz.GetLength(0))
@@ -284,7 +284,7 @@ namespace Grafy_i_Sieci
 
                                 Console.WriteLine();
                                 Console.WriteLine("Naciśnij dowolny klawisz, aby przejść do kolejnego kroku.\n\n");
-                                Console.ReadKey();
+                                Console.ReadKey(true);
                             }
                         }
                     }
