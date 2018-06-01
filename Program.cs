@@ -560,7 +560,7 @@ namespace Grafy_i_Sieci
 
             public static void Dzialanie()
             {
-                Console.WriteLine("Witaj w programie, który wykorzystuje algorytm węgierski do optymalnego przyporządkowania n zadań - n pracownikom.");
+                Console.WriteLine("Witaj w programie, który wykorzystuje algorytm węgierski do optymalnego przyporządkowania n maszyn - n pracownikom.");
                 int wybor = 0;
                 int wybor2 = 0;
                 int rozmiar = 0;
