@@ -585,11 +585,14 @@ namespace Grafy_i_Sieci
                             Console.WriteLine("Co chcesz zrobić?\n[1] Wpisz macierz.\n[2] Wygeneruj macierz losowo.\n[3] O programie.\n[4] Wyjdź.");
                             wybor = 0;
                         }
+
+                        if (wybor == 4)
+                            break;
                     }
                     chk = 0;
-
                     if (wybor == 4)
                         break;
+                    
 
                     Console.WriteLine("[1] Wyświetl tylko wynik.\n[2] Wyświetl krok po kroku.\n[3] Wyjdź.");
                     while (chk != 1)
@@ -633,64 +636,6 @@ namespace Grafy_i_Sieci
             }
 
 
-            //metody do testowania
-            //public static int PobierzWynik(uint[,] macierz)
-            //{
-            //    WebClient client = new WebClient();
-            //    string adres = "http://www.hungarianalgorithm.com/solve.php?c=";
-            //    for (int i = 0; i < macierz.GetLength(0); i++)
-            //    {
-            //        for (int j = 0; j < macierz.GetLength(0); j++)
-            //        {
-            //            adres += macierz[i, j];
-            //            adres += "-";
-            //        }
-            //        adres += "-";
-            //    }
-            //    //Console.WriteLine(adres);
-            //    string c = client.DownloadString(adres);
-            //    string wynik = "";
-            //    for (int i = c.Length - 1; i > 0; i--)
-            //    {
-            //        if (c[i] == ' ' && c[i - 1] == 's' && c[i - 2] == 'l' && c[i - 3] == 'a')
-            //        {
-            //            wynik += c[i + 1];
-            //            wynik += c[i + 2];
-            //            if (c[i + 3] != '.')
-            //                wynik += c[i + 3];
-            //            break;
-            //        }
-            //    }
-            //    return Convert.ToInt32(wynik);
-            //    //Console.WriteLine("Wynik z pięknej strony internetowej: " + wynik);
-            //}
-
-            //public static void Testuj(uint[,] macierz)
-            //{
-            //    int zneta = 0;
-            //    Console.Clear();
-            //    int wynik = 0;
-
-            //    uint[,] kopia = new uint[10, 10];
-
-            //    for (int i = 0; i < 10; i++)
-            //    {
-            //        for (int j = 0; j < 10; j++)
-            //        {
-            //            kopia[i, j] = macierz[i, j];
-            //        }
-            //    }
-
-            //    wynik = WykonajWyswietl(macierz);
-
-            //    zneta = PobierzWynik(macierz);
-
-            //    if (wynik == zneta)
-            //        Console.WriteLine("kurła, działa");
-
-            //    if (wynik != zneta)
-            //        Console.WriteLine("kurła, nie działa");
-            //}
         }
         static void Main(string[] args)
         {
