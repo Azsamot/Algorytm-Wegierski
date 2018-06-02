@@ -5,7 +5,7 @@ namespace Grafy_i_Sieci
     class Program
     {
         class Wegier
-        {       
+        {
             //metody główne do wykonania algorytmu
             //odejmij od każdego wiersza jego minimum
             private static void Krok1(uint[,] macierz)
@@ -15,8 +15,8 @@ namespace Grafy_i_Sieci
                 {
                     for (int j = 0; j < macierz.GetLength(1); j++)
                     {
-                        if (macierz[i,j] < min)
-                            min = macierz[i,j];
+                        if (macierz[i, j] < min)
+                            min = macierz[i, j];
                     }
                     for (int j = 0; j < macierz.GetLength(1); j++)
                         macierz[i, j] -= min;
@@ -177,7 +177,7 @@ namespace Grafy_i_Sieci
                     }
                 }
                 tekst += wynik;
-                Console.WriteLine(tekst + ".");
+                Console.WriteLine(tekst + ".\n");
                 return wynik;
             }
 
@@ -223,6 +223,9 @@ namespace Grafy_i_Sieci
                         }
                     }
                 }
+                //Console.WriteLine();
+                wWyswietlMacierz(macierz_prawdziwa, ZeraNiezalezne(macierz));
+                Console.WriteLine();
                 return Policz(macierz_prawdziwa, zera);
             }
 
@@ -290,9 +293,8 @@ namespace Grafy_i_Sieci
                     }
                 }
                 Console.WriteLine("Krok {0}: ", k);
-                Console.WriteLine();
                 wWyswietlMacierz(macierz_wejsciowa, ZeraNiezalezne(macierz));
-   
+
                 Console.WriteLine("\n");
                 return Policz(macierz_wejsciowa, zera);
             }
@@ -422,11 +424,12 @@ namespace Grafy_i_Sieci
                         if (macierz[i, j] >= 100 && macierz[i, j] < 1000)
                             Console.Write(macierz[i, j] + "   ");
 
-                        if (macierz[i, j] >= 1000)
+                        if (macierz[i, j] >= 1000 && macierz[i, j] < 10000)
                             Console.Write(macierz[i, j] + "  ");
 
-                        //if (macierz[i, j] >= 100)
-                        //    Console.Write(macierz[i, j] + " ");
+                        if (macierz[i, j] >= 10000)
+                            Console.Write(macierz[i, j] + " ");
+
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
                     Console.WriteLine();
@@ -521,9 +524,7 @@ namespace Grafy_i_Sieci
                             try
                             {
                                 wartosc = Convert.ToUInt32(Console.ReadLine());
-                                if (wartosc == 0)
-                                    Console.WriteLine("Błędna wartość. Spróbuj jeszcze raz.");
-                                else
+                                if (wartosc > 0)
                                 {
                                     macierz[i, j] = wartosc;
                                     chk = 1;
@@ -531,7 +532,7 @@ namespace Grafy_i_Sieci
                             }
                             catch (Exception)
                             {
-                                Console.WriteLine("Błędna wartość. Spróbuj jeszcze raz.");
+
                             }
                         }
                         chk = 0;
@@ -567,25 +568,29 @@ namespace Grafy_i_Sieci
                 int chk = 0;
                 do
                 {
-                    Console.WriteLine("Co chcesz zrobić?\n[1] Wpisz macierz.\n[2] Wygeneruj macierz losowo.\n[3] Wyjdź.");
+                    Console.WriteLine("Co chcesz zrobić?\n[1] Wpisz macierz.\n[2] Wygeneruj macierz losowo.\n[3] O programie.\n[4] Wyjdź.");
                     while (chk != 1)
                     {
                         try
                         {
                             wybor = Convert.ToInt32(Console.ReadLine());
-                            if (wybor > 0 && wybor < 4)
+                            if (wybor == 1 || wybor == 2)
                                 chk++;
-                            else
-                                Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
                         }
-                        catch (Exception)
+                        catch (Exception) { }
+
+                        if (wybor == 3)
                         {
-                            Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
+                            Console.WriteLine("Program powstał w celu zaliczenia przedmiotu \"Grafy i sieci\". Autorzy:\nAdrian Łuniewski\nTomasz Okoński\nMarek Wachnicki\n");
+                            Console.WriteLine("Co chcesz zrobić?\n[1] Wpisz macierz.\n[2] Wygeneruj macierz losowo.\n[3] O programie.\n[4] Wyjdź.");
+                            wybor = 0;
                         }
                     }
                     chk = 0;
-                    if (wybor == 3)
+
+                    if (wybor == 4)
                         break;
+
                     Console.WriteLine("[1] Wyświetl tylko wynik.\n[2] Wyświetl krok po kroku.\n[3] Wyjdź.");
                     while (chk != 1)
                     {
@@ -594,14 +599,8 @@ namespace Grafy_i_Sieci
                             wybor2 = Convert.ToInt32(Console.ReadLine());
                             if (wybor2 > 0 && wybor2 < 4)
                                 chk++;
-                            else
-                                Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
                         }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
-                        }
-
+                        catch (Exception) { }
                     }
                     chk = 0;
                     if (wybor2 == 3)
