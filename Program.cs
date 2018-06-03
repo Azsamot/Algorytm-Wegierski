@@ -576,8 +576,14 @@ namespace Grafy_i_Sieci
                             wybor = Convert.ToInt32(Console.ReadLine());
                             if (wybor == 1 || wybor == 2)
                                 chk++;
+
+                            else
+                            {
+                                if (wybor <= 1 || wybor >= 4)
+                                    Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
+                            }
                         }
-                        catch (Exception) { }
+                        catch (Exception) { Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz."); }
 
                         if (wybor == 3)
                         {
@@ -602,8 +608,11 @@ namespace Grafy_i_Sieci
                             wybor2 = Convert.ToInt32(Console.ReadLine());
                             if (wybor2 > 0 && wybor2 < 4)
                                 chk++;
+
+                            else
+                                Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
                         }
-                        catch (Exception) { }
+                        catch (Exception) { Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz."); }
                     }
                     chk = 0;
                     if (wybor2 == 3)
@@ -614,7 +623,7 @@ namespace Grafy_i_Sieci
                         try
                         {
                             rozmiar = Convert.ToInt32(Console.ReadLine());
-                            if (wybor2 > 0)
+                            if (rozmiar > 0)
                                 chk++;
                             else
                                 Console.WriteLine("Błędny rozmiar macierzy! Spróbuj jeszcze raz.");
