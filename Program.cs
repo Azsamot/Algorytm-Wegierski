@@ -579,7 +579,7 @@ namespace Grafy_i_Sieci
 
                             else
                             {
-                                if (wybor <= 1 || wybor >= 4)
+                                if (wybor < 1 || wybor > 4)
                                     Console.WriteLine("Błędny wybór! Spróbuj jeszcze raz.");
                             }
                         }
